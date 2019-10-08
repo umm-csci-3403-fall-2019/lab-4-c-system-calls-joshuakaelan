@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <cstdlib>
 
 #define BUF_SIZE 1024
 
@@ -33,7 +34,7 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
 		    j++; 
 	     }
      }
-     return num_chars - j; 
+     return j; 
 }
 
 void disemvowel(FILE* inputFile, FILE* outputFile) {
@@ -43,21 +44,19 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
      * in a buffer of data, copy the non-vowels to the output buffer, and
      * use fwrite to write that out.
      */
-     char* buffer[BUF_SIZE];
-     FILE* input;
-     input = fopen("inputFile", "r");
-     int i = 0;
-     while(!feof(input)){
-            
-            fread(buffer, sizeof(buffer), 1, input);
-	    i++;
+     char* buffer;
+     buffer = (char*) calloc(BUF_SIZE, sizeof(char));
+     char* endbuffer;
+     endbuffer = (char*) calloc(BUF_SIZE, sizeof(char));
+     while(!feof(inputFile)){
+       size_t num = fread(buffer, 1, BUF_SIZE, inputFile);
+       int k = copy_non_vowels(num,buffer,endbuffer);
+       fwrite(endbuffer, 1, k, outputFile);
 
      }
-     fclose(input);
-     char* endbuffer[BUF_SIZE];
-     copy_non_vowels(i,buffer,endbuffer);
-     fwrite(endbuffer, sizeof(endbuffer), 1, outputFile); 
-        
+     free(buffer);
+     free(endbuffer);
+     fclose(inputFile); 
 }
 
 int main(int argc, char *argv[]) {
@@ -67,11 +66,13 @@ int main(int argc, char *argv[]) {
     FILE *inputFile;
     FILE *outputFile;
     
+    if ()
     inputFile = stdin;
     outputFile = stdout;
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.
-
+    
+    //fopen(inputFile, "+w");
     disemvowel(inputFile, outputFile);
 
     return 0;
