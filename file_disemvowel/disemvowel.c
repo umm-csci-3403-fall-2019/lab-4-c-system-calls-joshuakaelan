@@ -66,14 +66,23 @@ int main(int argc, char *argv[]) {
     FILE *inputFile;
     FILE *outputFile;
     
-    if ()
+    if (argc == 1){
     inputFile = stdin;
     outputFile = stdout;
+    disemvowel(inputFile, outputFile);
+    } else if(argc == 2){
+	    inputFile = fopen(argv[1],"r");
+	    outputFile = stdout;
+	    disemvowel(inputFile, outputFile);
+    } else if(argc == 3){
+	    inputFile = fopen(argv[1],"r");
+	    outputFile = fopen(argv[2],"w+");
+            disemvowel(inputFile, outputFile);
+	    fclose(outputFile);
+    }
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.
-    
-    //fopen(inputFile, "+w");
-    disemvowel(inputFile, outputFile);
+   
 
     return 0;
 }
