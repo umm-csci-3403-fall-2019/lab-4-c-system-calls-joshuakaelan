@@ -29,11 +29,11 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
      int j =0;
      for(int i=0; i<num_chars; i++){
 	     if(!is_vowel(in_buf[i])){
-		    out_buff[j] = in_buf[i];
-		  t specifies the number of elements, each one with a size of size bytes.
-stream: it specifies the file stream to read the data from.  j++; 
+		    out_buf[j] = in_buf[i];
+		    j++; 
 	     }
      }
+     return num_chars - j; 
 }
 
 void disemvowel(FILE* inputFile, FILE* outputFile) {
@@ -44,15 +44,20 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
      * use fwrite to write that out.
      */
      char* buffer[BUF_SIZE];
-     input = fopen(inputFile, "r");
+     FILE* input;
+     input = fopen("inputFile", "r");
+     int i = 0;
      while(!feof(input)){
             
             fread(buffer, sizeof(buffer), 1, input);
+	    i++;
+
      }
-     char* endbuffer;
-     copy_non_vowels(buffer,endbuffer);
-     
-          
+     fclose(input);
+     char* endbuffer[BUF_SIZE];
+     copy_non_vowels(i,buffer,endbuffer);
+     fwrite(endbuffer, sizeof(endbuffer), 1, outputFile); 
+        
 }
 
 int main(int argc, char *argv[]) {
@@ -61,7 +66,9 @@ int main(int argc, char *argv[]) {
     // provides files names as command line arguments.
     FILE *inputFile;
     FILE *outputFile;
-
+    
+    inputFile = stdin;
+    outputFile = stdout;
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.
 
