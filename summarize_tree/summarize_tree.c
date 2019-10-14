@@ -18,9 +18,9 @@ bool is_dir(const char* path) {
    */
    struct stat buf;
    int n = stat(path,&buf);
-   if( n == 0 ){
+   if( stat(path,&buf) == 0 ){
 	   return S_ISDIR(buf.st_mode);
-   } else exit(n);
+   } else return false;
 
 }
 
